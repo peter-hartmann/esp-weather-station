@@ -16,8 +16,10 @@ function poll()
   local h,t,b = bme280.humi(),bme280.temp(),bme280.baro()
   local params="baro,mac="..wifi.ap.getmac()..",location="..Location.." value="..(b/10)..
     "\ntemp,mac="..wifi.ap.getmac()..",location="..Location.." value="..(t/100)..
-    "\nhumi,mac="..wifi.ap.getmac()..",location="..Location.." value="..(h/1000)..
-    "\ndewp,mac="..wifi.ap.getmac()..",location="..Location.." value="..(bme280.dewpoint(h,t)/100)
+    (h and
+      "\nhumi,mac="..wifi.ap.getmac()..",location="..Location.." value="..(h/1000)..
+      "\ndewp,mac="..wifi.ap.getmac()..",location="..Location.." value="..(bme280.dewpoint(h,t)/100)
+      or "")
   print('params:\n', params)
   http.post(InfluxDB, nil, params, function(code, data)
     if isDeepSleepMode then
