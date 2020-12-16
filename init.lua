@@ -1,4 +1,4 @@
--- modules: bme280,bme280_math,file,gpio,i2c,net,node,rtctime,tmr,uart,wifi
+-- modules: bme280,bme280_math,file,gpio,http,i2c,net,node,rtctime,tmr,uart,wifi
 gpio.mode(5, gpio.INPUT, gpio.PULLUP)
 isDeepSleepMode = gpio.read(5) == 1
 deepSleepSec = 60
