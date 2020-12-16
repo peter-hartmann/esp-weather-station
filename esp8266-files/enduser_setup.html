@@ -201,7 +201,7 @@
 		}
 		function refr() {
 			if (!stopAll)
-				fetch('/status.json?n=' + Math.random(), 'GET', newSt, 2);
+				ffetch('/status.json?n=' + Math.random(), 'GET', newSt, 2);
 		}
 		function cur(f) {
 			show('#f1', f);
@@ -250,7 +250,7 @@
 				}
 			}
 		}
-		function fetch(url, method, callback, time_out) {
+		function ffetch(url, method, callback, time_out) {
 			var xhr = new XMLHttpRequest();
 			xhr.onloadend = function () {
 				callback(xhr.status, xhr.responseText);
@@ -315,7 +315,7 @@
 			ab.disabled = true;
 			ap.innerHTML = '<option disabled>Scanning...</option>';
 			if (!stopAll)
-				fetch('/aplist?n=' + Math.random(), 'GET', gotAp, 10);
+				ffetch('/aplist?n=' + Math.random(), 'GET', gotAp, 10);
 		}
 		window.onload = function() {
 			let trying = $.urlParam('trying');

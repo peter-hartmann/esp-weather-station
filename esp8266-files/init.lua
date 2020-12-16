@@ -38,6 +38,7 @@ gpio.mode(8, gpio.OUTPUT) gpio.write(8, gpio.LOW)
 i2c.setup(0, 6, 7, i2c.SLOW)
 bme280.setup()
 
+wifi.setmode(wifi.STATION)
 if wifi.sta.status() == wifi.STA_GOTIP then
   poll();
 else
