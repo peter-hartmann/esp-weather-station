@@ -13,6 +13,8 @@ if file.exists('eus_params.lua') then
 end
 
 print('WIFI Setup, look for access point "'..SetupName..'"')
+gpio.mode(4, gpio.OUTPUT) gpio.write(4,1) tmr.create():alarm(1000, tmr.ALARM_AUTO, function() gpio.write(4,0) tmr.delay(100) gpio.write(4,1) end)
+
 wifi.sta.disconnect()
 wifi.setmode(wifi.STATIONAP)
 wifi.ap.config({ssid=SetupName, auth=wifi.WPA2_PSK, pwd=SetupPassword})

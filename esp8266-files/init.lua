@@ -1,10 +1,16 @@
 -- modules: adc,bme280,bme280_math,enduser_setup,file,gpio,http,i2c,net,node,rtctime,tmr,uart,wifi
-gpio.mode(5, gpio.INPUT, gpio.PULLUP)
-isDeepSleepMode = gpio.read(5) == 1
-gpio.mode(2, gpio.INPUT, gpio.PULLUP)
-if gpio.read(2) == 0 then file.remove('eus_params.lua') file.remove('params.lua') end
+pin_gnd=8
+pin_scl=7
+pin_sda=6
+pin_sleepYes=5
+pin_configOn=2
 
 dofile('config.lua')
+gpio.mode(pin_sleepYes, gpio.INPUT, gpio.PULLUP)
+isDeepSleepMode = gpio.read(pin_sleepYes) == 1
+gpio.mode(pin_configOn, gpio.INPUT, gpio.PULLUP)
+if gpio.read(pin_configOn) == 0 then file.remove('eus_params.lua') file.remove('params.lua') end
+
 if not file.exists('params.lua') then dofile('init2.lua') return end
 dofile('params.lua')
 
@@ -34,8 +40,8 @@ function poll()
   end)
 end
 
-gpio.mode(8, gpio.OUTPUT) gpio.write(8, gpio.LOW)
-i2c.setup(0, 6, 7, i2c.SLOW)
+gpio.mode(pin_gnd, gpio.OUTPUT) gpio.write(pin_gnd, gpio.LOW)
+i2c.setup(0, pin_sda, pin_scl, i2c.SLOW)
 bme280.setup()
 
 wifi.setmode(wifi.STATION)

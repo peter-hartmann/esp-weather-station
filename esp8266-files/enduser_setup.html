@@ -219,8 +219,8 @@
 					d = JSON.parse(d);
 				}
 
-				$('#deviceId').innerText = "Device: " + d.deviceid;
-				$('#deviceName').value = "Test-" + d.deviceid;
+				if ($('#deviceId').innerText == '') $('#deviceId').innerText = "Device: " + d.deviceid;
+				if ($('#deviceName').value == '') $('#deviceName').value = "Test-" + d.deviceid;
 
 				var c = d.pairing;
 
