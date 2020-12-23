@@ -4,7 +4,8 @@ pin_scl=7
 pin_sda=6
 pin_sleepYes=5
 pin_configOn=2
-VoltFactor= 100 / 320 / 1024
+VoltFactor= 320 / 100 / 1024
+TempOffset = 0
 
 dofile('config.lua')
 gpio.mode(pin_sleepYes, gpio.INPUT, gpio.PULLUP)
@@ -19,6 +20,7 @@ print('InfluxDB', '=', InfluxDB)
 print('isDeepSleepMode', '=', isDeepSleepMode)
 print('WIFI device_name', '=', device_name)
 print('deepSleepSec', '=', deepSleepSec)
+print('VoltFactor', '=', VoltFactor)
 
 tmr.softwd(deepSleepSec)
 
@@ -26,7 +28,7 @@ function poll()
   local h,t,b = bme280.humi(),bme280.temp(),bme280.baro()
   local params="volt,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(VoltFactor*adc.read(0))..
     "\nbaro,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(b/10)..
-    "\ntemp,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(t/100)..
+    "\ntemp,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(TempOffset+t/100)..
     (h and
       "\nhumi,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(h/1000)..
       "\ndewp,mac="..wifi.ap.getmac()..",location="..device_name.." value="..(bme280.dewpoint(h,t)/100)
