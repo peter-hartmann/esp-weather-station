@@ -1,4 +1,6 @@
 -- modules: adc,bme280,bme280_math,enduser_setup,file,gpio,http,i2c,net,node,rtctime,tmr,uart,wifi
+SetupName = 'WetterStation-'..node.chipid()
+SetupPassword = 'password123'
 pin_gnd=8
 pin_scl=7
 pin_sda=6
