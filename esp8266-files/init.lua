@@ -1,22 +1,13 @@
 -- modules: adc,bme280,bme280_math,enduser_setup,file,gpio,http,i2c,net,node,rtctime,tmr,uart,wifi
-SetupName = 'WetterStation-'..node.chipid()
-SetupPassword = 'password123'
-pin_gnd=8
-pin_scl=7
-pin_sda=6
-pin_sleepYes=5
-pin_configOn=2
-VoltFactor= 320 / 100 / 1024
-TempOffset = 0
+local _,r = node.bootreason()
+if r == 6 then node.startup({command="@_reset1.lua"}) node.restart() end
+dofile('params.lua')
 
+dofile('config-example.lua')
 dofile('config.lua')
+
 gpio.mode(pin_sleepYes, gpio.INPUT, gpio.PULLUP)
 isDeepSleepMode = gpio.read(pin_sleepYes) == 1
-gpio.mode(pin_configOn, gpio.INPUT, gpio.PULLUP)
-if gpio.read(pin_configOn) == 0 then file.remove('eus_params.lua') file.remove('params.lua') end
-
-if not file.exists('params.lua') then dofile('init2.lua') return end
-dofile('params.lua')
 
 print('InfluxDB', '=', InfluxDB)
 print('isDeepSleepMode', '=', isDeepSleepMode)
