@@ -16,6 +16,7 @@ print('deepSleepSec', '=', deepSleepSec)
 print('VoltFactor', '=', VoltFactor)
 
 tmr.softwd(deepSleepSec)
+rtctime.set(0)
 
 function poll()
   local h,t,b = bme280.humi(),bme280.temp(),bme280.baro()
@@ -29,7 +30,7 @@ function poll()
   print('params:\n', params)
   http.post(InfluxDB, nil, params, function(code, data)
     if isDeepSleepMode then
-      print('done sending, deep sleep') rtctime.dsleep(deepSleepSec*1000000, 4)
+      print('done sending, deep sleep') rtctime.dsleep_aligned(deepSleepSec*1000000, 1000000, 4)
     else
       print('done sending, staying awake')
     end
