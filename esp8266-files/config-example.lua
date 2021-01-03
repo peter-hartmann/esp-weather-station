@@ -3,7 +3,7 @@ pin_gnd=8
 pin_scl=7
 pin_sda=6
 pin_sleepYes=5
-SetupName = 'WetterStation-'..node.chipid()
+SetupName = 'WetterStation-'..string.format("%X",node.chipid())
 SetupPassword = 'password123'
 
 InfluxDB = 'http://server:8086/write?db=weather'
